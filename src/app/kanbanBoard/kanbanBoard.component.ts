@@ -15,8 +15,8 @@ export class KanbanBoard implements OnInit {
     // Each task is uniquely identified by its name.
     // Therefore, when you perform any operation on tasks, make sure you pick tasks by names (primary key) instead of any kind of index or any other attribute.
     this.tasks = [
-      { name: '0', stage: 0 },
-      { name: '1', stage: 0 },
+      { name: 'First task', stage: 0 },
+      { name: 'Second task', stage: 0 },
     ];
     this.stagesNames = ['Backlog', 'To Do', 'Ongoing', 'Done'];
     this.configureTasksForRendering();
@@ -37,13 +37,33 @@ export class KanbanBoard implements OnInit {
 
   next(task: any) {
     this.tasks = this.tasks.map((e: any) => {
-      if (e.stage == task.stage) {
+      if (e.name == task.name) {
         e.stage = task.stage + 1
       }
       return e;
-    })
+    });
+    this.configureTasksForRendering();
   }
 
+  back(task: any) {
+    this.tasks = this.tasks.map((e: any) => {
+      if (e.name == task.name) {
+        e.stage = task.stage - 1
+      }
+      return e;
+    });
+    this.configureTasksForRendering();
+  }
+
+  delete(task) {
+  this.tasks = this.tasks.filter(e => {
+    if (e.name != task?.name) {
+      return e;
+    }
+
+  });
+  this.configureTasksForRendering();
+  }
 
 
   // this function has to be called whenever tasks array is changed to construct stagesTasks for rendering purpose
